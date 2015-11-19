@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E74DCE2D-B4BE-46CA-B7ED-0C7E1B29ECD7}"
 	ProjectSection(SolutionItems) = preProject
 		Shared\CommonAssemblyInfo.cs = Shared\CommonAssemblyInfo.cs
+		msukhanov.snk = msukhanov.snk
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.SingleInstanceApp.Wpf.NET45", "Trustsoft.SingleInstanceApp.Wpf.NET45\Trustsoft.SingleInstanceApp.Wpf.NET45.csproj", "{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}"
