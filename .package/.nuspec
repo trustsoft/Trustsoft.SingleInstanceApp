@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>Trustsoft.SingleInstanceApp</id>
+    <title>Trustsoft.SingleInstanceApp</title>
+    <version>0.1.0.0</version>
+    <owners>Trustsoft Ltd.</owners>
+    <authors>Trustsoft Ltd.</authors>
+    <summary>
+      Library for creating single instance WPF application for .NET 4.0/4.5/4.6.
+    </summary>
+    <description>
+      Library that helps to create single instance WPF application. Supports .NET 4.0/4.5/4.6.
+    </description>
+    <language>en-US</language>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>single instance WPF</tags>
+    <copyright>Copyright © Trustsoft Ltd. 2015</copyright>
+    <releaseNotes>
+    </releaseNotes>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System"/>
+      <frameworkAssembly assemblyName="System.Core"/>
+      <frameworkAssembly assemblyName="PresentationCore"/>
+      <frameworkAssembly assemblyName="PresentationFramework"/>
+      <frameworkAssembly assemblyName="System.Runtime.Remoting"/>
+      <frameworkAssembly assemblyName="WindowsBase"/>
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="..\Binaries\Release\**" target="lib" />
+    <file src="lib\**\*.*" target="lib"/>
+    <file src="readme.txt" target="" />
+  </files>
+</package>
