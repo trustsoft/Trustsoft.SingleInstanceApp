@@ -3,9 +3,10 @@
   <metadata>
     <id>Trustsoft.SingleInstanceApp</id>
     <title>Trustsoft.SingleInstanceApp</title>
-    <version>0.1.0.0</version>
+    <version>0.1.0.1</version>
     <owners>Trustsoft Ltd.</owners>
     <authors>Trustsoft Ltd.</authors>
+    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
     <summary>
       Library for creating single instance WPF application for .NET 3.5/4.0/4.5/4.6.
     </summary>
@@ -15,7 +16,6 @@
     <language>en-US</language>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>single instance WPF</tags>
-    <copyright>Copyright © Trustsoft Ltd. 2015</copyright>
     <releaseNotes>
     </releaseNotes>
     <frameworkAssemblies>
