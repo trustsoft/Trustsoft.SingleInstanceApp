@@ -23,7 +23,7 @@ namespace Trustsoft.SingleInstanceApp
     using System.Windows;
     using System.Windows.Threading;
 
-    using Interop;
+    using Trustsoft.SingleInstanceApp.Interop;
 
     #endregion
 
@@ -121,7 +121,7 @@ namespace Trustsoft.SingleInstanceApp
             commandLineArgs = GetCommandLineArgs(uniqueName);
 
             // Build unique application Id and the IPC channel name.
-            var applicationIdentifier = uniqueName + Environment.UserName;
+            var applicationIdentifier = $"{uniqueName}{Environment.UserName}";
 
             var channelName = string.Concat(applicationIdentifier, Delimiter, ChannelNameSuffix);
 
@@ -154,7 +154,7 @@ namespace Trustsoft.SingleInstanceApp
 
             //remove execute path itself
             args.RemoveAt(0);
-            ((TApp) Application.Current).OnActivate(args);
+            ((TApp)Application.Current).OnActivate(args);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Trustsoft.SingleInstanceApp
             // Register the channel with the channel services
             ChannelServices.RegisterChannel(channel, true);
 
-            // Expose the remote service with the REMOTE_SERVICE_NAME
+            // Expose the remote service with the 'RemoteServiceName'
             var remoteService = new IpcRemoteService();
             RemotingServices.Marshal(remoteService, RemoteServiceName);
         }
@@ -260,7 +260,7 @@ namespace Trustsoft.SingleInstanceApp
 
             // Obtain a reference to the remoting service exposed by the server i.e the first instance of the application
             var firstInstanceRemoteServiceReference =
-                (IpcRemoteService) RemotingServices.Connect(typeof (IpcRemoteService), remotingServiceUrl);
+                (IpcRemoteService)RemotingServices.Connect(typeof(IpcRemoteService), remotingServiceUrl);
 
             // Check that the remote service exists, in some cases the first instance may not yet have created one, in which case
             // the second instance should just exit.
@@ -291,8 +291,7 @@ namespace Trustsoft.SingleInstanceApp
                 {
                     // Do an asynchronous call to ActivateFirstInstance function
                     var operationCallback = new DispatcherOperationCallback(ActivateFirstInstanceCallback);
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, operationCallback,
-                                                               args);
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, operationCallback, args);
                 }
             }
 
