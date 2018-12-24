@@ -51,7 +51,7 @@
   <Target Name="CreateNuGetPackages" DependsOnTargets="CleanNuGetPackages;UpdateNuGet">
     <Message Text="Creating NuGet packages..." Importance="high" />
     <MakeDir Directories="$(PackageOutputDir)\lib" />
-    <Exec Command="$(NugetPackCommand) $(PackageOutputDir)\.nuspec -o $(PackageOutputDir)" />
+    <Exec Command="$(NugetPackCommand) $(PackageOutputDir)\.nuspec -OutputDirectory $(PackageOutputDir)" />
   </Target>
 
   <Target Name="PublishToMyGet" DependsOnTargets="UpdateNuGet">
@@ -61,7 +61,7 @@
 
   <Target Name="PublishToNuGet" DependsOnTargets="UpdateNuGet">
     <Message Text="Publishing NuGet package to NuGet Feed..." Importance="high" />
-    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg db16e530-5b24-446b-910a-8faa27bf98b7" />
+    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg db16e530-5b24-446b-910a-8faa27bf98b7 -Source https://api.nuget.org/v3/index.json" />
   </Target>
 
   <Target Name="CompleteBuild">

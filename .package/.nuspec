@@ -6,7 +6,7 @@
     <version>0.1.0.1</version>
     <owners>Trustsoft Ltd.</owners>
     <authors>Trustsoft Ltd.</authors>
-    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
+    <license type="expression">MIT</license>
     <summary>
       Library for creating single instance WPF application for .NET 3.5/4.0/4.5/4.6.
     </summary>
