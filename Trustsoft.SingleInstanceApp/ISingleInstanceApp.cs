@@ -13,12 +13,16 @@ namespace Trustsoft.SingleInstanceApp
 
     #endregion
 
+    /// <summary>
+    ///     Define method that should be called when second instance of app is launched.
+    /// </summary>
     public interface ISingleInstanceApp
     {
-        #region " Public Methods "
-
+        /// <summary>
+        ///     Called when second app`s instance is activated.
+        /// </summary>
+        /// <param name="args"> The arguments. </param>
+        /// <returns> <c> true </c> if processed, <c> false </c> otherwise. </returns>
         bool OnActivate(IList<string> args);
-
-        #endregion
     }
 }

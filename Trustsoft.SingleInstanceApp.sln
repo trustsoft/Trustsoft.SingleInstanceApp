@@ -1,22 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E74DCE2D-B4BE-46CA-B7ED-0C7E1B29ECD7}"
-	ProjectSection(SolutionItems) = preProject
-		Shared\CommonAssemblyInfo.cs = Shared\CommonAssemblyInfo.cs
-		msukhanov.snk = msukhanov.snk
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.SingleInstanceApp.Wpf.NET45", "Trustsoft.SingleInstanceApp.Wpf.NET45\Trustsoft.SingleInstanceApp.Wpf.NET45.csproj", "{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.SingleInstanceApp.Wpf.NET40", "Trustsoft.SingleInstanceApp.Wpf.NET40\Trustsoft.SingleInstanceApp.Wpf.NET40.csproj", "{70105AD2-11A7-4920-8752-397CF91D07E4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.SingleInstanceApp.Wpf.NET46", "Trustsoft.SingleInstanceApp.Wpf.NET46\Trustsoft.SingleInstanceApp.Wpf.NET46.csproj", "{EA78A92B-E841-4281-B7FF-C5A4A40A0689}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.SingleInstanceApp.Wpf.NET35", "Trustsoft.SingleInstanceApp.Wpf.NET35\Trustsoft.SingleInstanceApp.Wpf.NET35.csproj", "{D4140C57-A0E4-4FDD-8ECD-035D885B3E1D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{06E7F2F9-9D5B-40CA-ADA2-E9F6F9ADEB85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustsoft.Wpf.SingleInstanceApp.Demo.NET35", "Demos\Trustsoft.Wpf.SingleInstanceApp.Demo.NET35\Trustsoft.Wpf.SingleInstanceApp.Demo.NET35.csproj", "{637E7B4D-D69D-424E-8BE9-C3EFEA6BC6FE}"
@@ -34,28 +20,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trustsoft.SingleInstanceApp", "Trustsoft.SingleInstanceApp\Trustsoft.SingleInstanceApp.csproj", "{A8550AEB-43EE-4A8E-9A0E-27B3DA919F8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".shared", ".shared", "{791D6140-A7AB-4DF5-8238-B0563B7221C9}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.build.props = Directory.build.props
+		.shared\msukhanov.snk = .shared\msukhanov.snk
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{B1200470-5F2E-4AE6-989F-1D312C075B8D}"
+	ProjectSection(SolutionItems) = preProject
+		.build\build.cmd = .build\build.cmd
+		.build\build.Release.cmd = .build\build.Release.cmd
+		.build\build.xml = .build\build.xml
+		.build\make.Release.cmd = .build\make.Release.cmd
+		.build\publish.MyGet.cmd = .build\publish.MyGet.cmd
+		.build\publish.NuGet.cmd = .build\publish.NuGet.cmd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D90580E4-B436-44B5-85CD-6A2AF9B3C9BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70105AD2-11A7-4920-8752-397CF91D07E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70105AD2-11A7-4920-8752-397CF91D07E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70105AD2-11A7-4920-8752-397CF91D07E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70105AD2-11A7-4920-8752-397CF91D07E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA78A92B-E841-4281-B7FF-C5A4A40A0689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA78A92B-E841-4281-B7FF-C5A4A40A0689}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA78A92B-E841-4281-B7FF-C5A4A40A0689}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA78A92B-E841-4281-B7FF-C5A4A40A0689}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4140C57-A0E4-4FDD-8ECD-035D885B3E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4140C57-A0E4-4FDD-8ECD-035D885B3E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4140C57-A0E4-4FDD-8ECD-035D885B3E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4140C57-A0E4-4FDD-8ECD-035D885B3E1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{637E7B4D-D69D-424E-8BE9-C3EFEA6BC6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{637E7B4D-D69D-424E-8BE9-C3EFEA6BC6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{637E7B4D-D69D-424E-8BE9-C3EFEA6BC6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,6 +60,10 @@ Global
 		{1D88D12C-43A6-4250-9A0E-32BAEC2929F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D88D12C-43A6-4250-9A0E-32BAEC2929F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D88D12C-43A6-4250-9A0E-32BAEC2929F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8550AEB-43EE-4A8E-9A0E-27B3DA919F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8550AEB-43EE-4A8E-9A0E-27B3DA919F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8550AEB-43EE-4A8E-9A0E-27B3DA919F8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8550AEB-43EE-4A8E-9A0E-27B3DA919F8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +73,8 @@ Global
 		{2AE5B68A-8311-4A24-8952-2709ABD8068A} = {06E7F2F9-9D5B-40CA-ADA2-E9F6F9ADEB85}
 		{8B2075DE-B419-46F5-A97F-F4AEC2CAF7E4} = {06E7F2F9-9D5B-40CA-ADA2-E9F6F9ADEB85}
 		{1D88D12C-43A6-4250-9A0E-32BAEC2929F3} = {06E7F2F9-9D5B-40CA-ADA2-E9F6F9ADEB85}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF1F98FD-1037-4A5D-877A-8C6584310AB9}
 	EndGlobalSection
 EndGlobal

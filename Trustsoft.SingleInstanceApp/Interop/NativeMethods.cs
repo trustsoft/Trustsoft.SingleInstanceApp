@@ -37,7 +37,7 @@ namespace Trustsoft.SingleInstanceApp.Interop
 
                 for (int i = 0; i < numArgs; i++)
                 {
-                    IntPtr currArg = Marshal.ReadIntPtr(arguments, i*Marshal.SizeOf(typeof (IntPtr)));
+                    IntPtr currArg = Marshal.ReadIntPtr(arguments, i * Marshal.SizeOf(typeof(IntPtr)));
                     result[i] = Marshal.PtrToStringUni(currArg);
                 }
 

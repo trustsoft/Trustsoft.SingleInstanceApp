@@ -36,13 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -100,9 +95,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Trustsoft.SingleInstanceApp.Wpf.NET46\Trustsoft.SingleInstanceApp.Wpf.NET46.csproj">
-      <Project>{ea78a92b-e841-4281-b7ff-c5a4a40a0689}</Project>
-      <Name>Trustsoft.SingleInstanceApp.Wpf.NET46</Name>
+    <ProjectReference Include="..\..\Trustsoft.SingleInstanceApp\Trustsoft.SingleInstanceApp.csproj">
+      <Project>{a8550aeb-43ee-4a8e-9a0e-27b3da919f8c}</Project>
+      <Name>Trustsoft.SingleInstanceApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

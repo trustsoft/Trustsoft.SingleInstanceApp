@@ -35,11 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -87,9 +84,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Trustsoft.SingleInstanceApp.Wpf.NET35\Trustsoft.SingleInstanceApp.Wpf.NET35.csproj">
-      <Project>{d4140c57-a0e4-4fdd-8ecd-035d885b3e1d}</Project>
-      <Name>Trustsoft.SingleInstanceApp.Wpf.NET35</Name>
+    <ProjectReference Include="..\..\Trustsoft.SingleInstanceApp\Trustsoft.SingleInstanceApp.csproj">
+      <Project>{a8550aeb-43ee-4a8e-9a0e-27b3da919f8c}</Project>
+      <Name>Trustsoft.SingleInstanceApp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
