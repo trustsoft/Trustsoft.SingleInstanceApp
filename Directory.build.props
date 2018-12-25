@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/trustsoft/Trustsoft.SingleInstanceApp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <!-- Root control Version Prefix -->
-    <VersionPrefix>0.1.1.0</VersionPrefix>
+    <VersionPrefix>1.0.0.0</VersionPrefix>
   </PropertyGroup>
 
   <!-- XML documentation -->
