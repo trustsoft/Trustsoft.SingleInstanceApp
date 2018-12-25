@@ -1,0 +1,45 @@
+<Project>
+  <PropertyGroup>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <Authors>Trustsoft Ltd.</Authors>
+    <Company>Trustsoft Ltd.</Company>
+    <Copyright>Copyright © Trustsoft Ltd. 2010-$([System.DateTime]::Now.Year)</Copyright>
+    <PackageProjectUrl>https://www.nuget.org/packages/Trustsoft.SingleInstanceApp</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/trustsoft/Trustsoft.SingleInstanceApp/master/logo.png</PackageIconUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/trustsoft/Trustsoft.SingleInstanceApp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- Root control Version Prefix -->
+    <VersionPrefix>0.1.1.0</VersionPrefix>
+  </PropertyGroup>
+
+  <!-- XML documentation -->
+  <PropertyGroup>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <GenerateDocumentationFile>!$(IsTestProject)</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- NuGet Packaging -->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeSource>false</IncludeSource>
+    <IsPackable>true</IsPackable>
+    <IsPackable Condition=" $(ProjectName.Contains('Sample')) ">false</IsPackable>
+    <IsPackable Condition=" $(ProjectName.Contains('Demo')) ">false</IsPackable>
+    <IsPackable Condition=" $(ProjectName.Contains('Test')) ">false</IsPackable>
+    <GeneratePackageOnBuild>$(IsPackable)</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Content Include="..\.package\readme.txt">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+    <Content Include="..\.package\lib\**\*.*">
+      <Pack>true</Pack>
+      <PackagePath>\lib</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>

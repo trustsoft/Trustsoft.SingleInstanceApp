@@ -46,9 +46,12 @@
         public bool OnActivate(IList<string> args)
         {
             // handle command line arguments of second instance
-            Current.MainWindow.Title = args.Any()
-                                           ? args.Aggregate((s1, s2) => string.Format("{0}, {1}", s1, s2))
-                                           : "Second instance launched";
+            if (Current.MainWindow != null)
+            {
+                Current.MainWindow.Title = args.Any()
+                                               ? args.Aggregate((s1, s2) => $"{s1}, {s2}")
+                                               : "Second instance launched";
+            }
             return true;
         }
 

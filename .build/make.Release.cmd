@@ -9,7 +9,6 @@ FOR /F "tokens=* USEBACKQ" %%g IN (
 
 MSBuild.exe /nologo /v:minimal /p:Configuration=Release build.xml /t:BuildSolution
 
-MSBuild.exe /nologo /v:minimal /p:Configuration=Release build.xml /t:CreateNuGetPackages
 MSBuild.exe /nologo /v:minimal /p:Configuration=Release build.xml /t:PublishToMyGet
 MSBuild.exe /nologo /v:minimal /p:Configuration=Release build.xml /t:PublishToNuGet
 

@@ -7,6 +7,6 @@ FOR /F "tokens=* USEBACKQ" %%g IN (
 
 @call "%vsPath%\Common7\Tools\VsDevCmd.bat"
 
-MSBuild.exe /nologo /v:minimal build.xml  %*
+MSBuild.exe /nologo /v:minimal build.xml /t:BuildSolution %*
 
 pause

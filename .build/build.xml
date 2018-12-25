@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
-         DefaultTargets="CompleteBuild"
-         ToolsVersion="4.0">
-
-<!--
-***********************************************************************************************************************
-**  build.proj
-**
-**  Trustsoft Ltd. 2012-2015 
-**  No copyright is claimed. All Other Rights Reserved.
-**
-**  Code Modification History:
-**  ===================================================================================================================
-**  08/04/2015 - Sukhanov Maxim
-**       Generated original version of source code.
-***********************************************************************************************************************
--->
-
-  <!-- Initialization -->
+         ToolsVersion="4.5"
+         DefaultTargets="CompleteBuild">
 
   <!-- Import Commons -->
-  <Import Project="build.common.xml" />
-
-  <!-- Import NuGet Processing tasks -->
-  <Import Project="build.nuget.xml" />
-
-  <!-- Define projects to handle -->
   <PropertyGroup>
+    <!-- Define common paths -->
+    <BuildOutputDir>..\.artifacts\</BuildOutputDir>
+    <PackageOutputDir>..\.package</PackageOutputDir>
+    <!-- Define solutions\projects to handle -->
     <SolutionToCompile>..\Trustsoft.SingleInstanceApp.sln</SolutionToCompile>
+    <!-- NuGet Push Command -->
+    <NugetPushCommand>dotnet nuget push</NugetPushCommand>
   </PropertyGroup>
 
-  <Target Name="CleanSolution">
+  <!-- Import NuGet Processing tasks -->
+  <Import Project="$(MSBuildSDKsPath)\NuGet.Build.Tasks.Pack\build\NuGet.Build.Tasks.Pack.targets" />
+
+  <Target Name="BuildSolution">
+    <CallTarget Targets="CleanSolution" />
+    <CallTarget Targets="CompileSolution" />
+  </Target>
+
+  <Target Name="CleanSolution" DependsOnTargets="CleanNuGetPackages;">
     <Message Text="--- Cleaning solution... ---" Importance="high" />
     <MSBuild Projects="$(SolutionToCompile)" Properties="Configuration=Release;" Targets="Clean" />
     <MSBuild Projects="$(SolutionToCompile)" Properties="Configuration=Debug;" Targets="Clean" />
@@ -43,37 +35,24 @@
     <MSBuild Projects="$(SolutionToCompile)" Properties="Configuration=Release;" />
   </Target>
 
-  <Target Name="BuildSolution">
-    <CallTarget Targets="CleanSolution" />
-    <CallTarget Targets="CompileSolution" />
+  <Target Name="CleanNuGetPackages">
+    <Message Text="--- Cleaning NuGet packages... ---" Importance="high" />
+    <Exec Command="del $(PackageOutputDir)\*.nupkg" />
   </Target>
 
-  <Target Name="CreateNuGetPackages" DependsOnTargets="CleanNuGetPackages;UpdateNuGet">
-    <Message Text="Creating NuGet packages..." Importance="high" />
-    <MakeDir Directories="$(PackageOutputDir)\lib" />
-    <Exec Command="$(NugetPackCommand) $(PackageOutputDir)\.nuspec -OutputDirectory $(PackageOutputDir)" />
-  </Target>
-
-  <Target Name="PublishToMyGet" DependsOnTargets="UpdateNuGet">
+  <Target Name="PublishToMyGet">
     <Message Text="Publishing NuGet package to MyGet Feed..." Importance="high" />
-    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg af2081fc-7573-45e0-a2dc-483df17bbc38 -Source https://www.myget.org/F/878787638684383333/api/v2/package" />
+    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg -k af2081fc-7573-45e0-a2dc-483df17bbc38 -s https://www.myget.org/F/878787638684383333/api/v2/package" />
   </Target>
 
-  <Target Name="PublishToNuGet" DependsOnTargets="UpdateNuGet">
+  <Target Name="PublishToNuGet">
     <Message Text="Publishing NuGet package to NuGet Feed..." Importance="high" />
-    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg db16e530-5b24-446b-910a-8faa27bf98b7 -Source https://api.nuget.org/v3/index.json" />
+    <Exec Command="$(NugetPushCommand) $(PackageOutputDir)\*.nupkg -n -k oy2l72cppuc2k7a2lcsa6neerk7nr3eefgkm7ftnbmejda -s https://api.nuget.org/v3/index.json" />
   </Target>
 
   <Target Name="CompleteBuild">
 
-    <Message Text="--- Building Solution... ---" Importance="high" />
     <CallTarget Targets="BuildSolution" />
-
-    <Message Text="--- Updating NuGet binary... ---" Importance="high" />
-    <CallTarget Targets="UpdateNuGet" />
-
-    <Message Text="--- Creating NuGet binary... ---" Importance="high" />
-    <CallTarget Targets="CreateNuGetPackages" />
 
     <Message Text="--- Publishing NuGet binary... ---" Importance="high" />
     <CallTarget Targets="PublishToMyGet" />

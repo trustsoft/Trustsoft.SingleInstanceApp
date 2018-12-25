@@ -31,15 +31,20 @@ namespace Trustsoft.SingleInstanceApp
     ///     This class checks to make sure that only one instance of this application is running at a time.
     /// </summary>
     /// <remarks>
-    ///     Note: this class should be used with some caution, because it does no security checking. For example, if
-    ///     one instance of an app that uses this class is running as Administrator, any other instance, even if it is
-    ///     not running as Administrator, can activate it with command line arguments. For most apps, this will not be
-    ///     much of an issue.
+    ///     Note: this class should be used with some caution, because it does no security checking. For
+    ///     example, if one instance of an app that uses this class is running as Administrator, any other
+    ///     instance, even if it is not running as Administrator, can activate it with command line
+    ///     arguments. For most apps, this will not be much of an issue.
     /// </remarks>
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
     public static class SingleInstance<TApp> where TApp : Application, ISingleInstanceApp
     {
         #region " Constants "
+
+        /// <summary>
+        ///     Command line argument name to restart App.
+        /// </summary>
+        public const string Restart = "Restart";
 
         /// <summary>
         ///     Suffix to the channel name.
@@ -52,7 +57,7 @@ namespace Trustsoft.SingleInstanceApp
         private const string Delimiter = ":";
 
         /// <summary>
-        ///     IPC protocol used (string).
+        ///     IPC protocol prefix (string).
         /// </summary>
         private const string IpcProtocol = "ipc://";
 
@@ -63,7 +68,7 @@ namespace Trustsoft.SingleInstanceApp
 
         #endregion
 
-        #region " Static Fields "
+        #region " Fields "
 
         /// <summary>
         ///     IPC channel for communications.
@@ -82,7 +87,7 @@ namespace Trustsoft.SingleInstanceApp
 
         #endregion
 
-        #region " Static Properties "
+        #region " Public Properties "
 
         /// <summary>
         ///     Gets list of command line arguments for the application.
@@ -91,7 +96,7 @@ namespace Trustsoft.SingleInstanceApp
 
         #endregion
 
-        #region " Static Methods "
+        #region " Public Methods "
 
         /// <summary>
         ///     Cleans up single-instance code, clearing shared resources, mutexes, etc.
@@ -126,19 +131,29 @@ namespace Trustsoft.SingleInstanceApp
             var channelName = string.Concat(applicationIdentifier, Delimiter, ChannelNameSuffix);
 
             // Create mutex based on unique application Id to check if this is the first instance of the application. 
-            bool firstInstance;
-            singleInstanceMutex = new Mutex(true, applicationIdentifier, out firstInstance);
+            singleInstanceMutex = new Mutex(true, applicationIdentifier, out bool firstInstance);
             if (firstInstance)
             {
                 CreateRemoteService(channelName);
-            }
-            else
-            {
-                SignalFirstInstance(channelName, commandLineArgs);
+                return true;
             }
 
-            return firstInstance;
+            // Restart
+            if (commandLineArgs.Count > 0 && commandLineArgs[0] == Restart)
+            {
+                SignalFirstInstance(channelName, commandLineArgs);
+                singleInstanceMutex.WaitOne(TimeSpan.FromSeconds(10));
+                CreateRemoteService(channelName);
+                return true;
+            }
+
+            SignalFirstInstance(channelName, commandLineArgs);
+            return false;
         }
+
+        #endregion
+
+        #region " Private Methods "
 
         /// <summary>
         ///     Activates the first instance of the application with arguments from a second instance.
@@ -152,7 +167,7 @@ namespace Trustsoft.SingleInstanceApp
                 return;
             }
 
-            //remove execute path itself
+            // remove execute path itself
             args.RemoveAt(0);
             ((TApp)Application.Current).OnActivate(args);
         }
@@ -204,15 +219,15 @@ namespace Trustsoft.SingleInstanceApp
             string[] args = null;
             if (AppDomain.CurrentDomain.ActivationContext == null)
             {
-                // The application was not clickonce deployed, get args from standard API's
+                // The application was not ClickOnce deployed, get args from standard API.
                 args = Environment.GetCommandLineArgs();
             }
             else
             {
-                // The application was clickonce deployed
-                // Clickonce deployed apps cannot receive traditional commandline arguments
-                // As a workaround commandline arguments can be written to a shared location before 
-                // the app is launched and the app can obtain its commandline arguments from the shared location              
+                // The application was ClickOnce deployed.
+                // ClickOnce deployed apps cannot receive traditional commandline arguments.
+                // As a workaround commandline arguments can be written to a shared location before the app
+                // is launched and the app can obtain its commandline arguments from the shared location.           
                 var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 var appFolderPath = Path.Combine(localAppData, uniqueApplicationName);
 
@@ -234,52 +249,60 @@ namespace Trustsoft.SingleInstanceApp
                 }
             }
 
-            if (args == null)
-            {
-                args = new string[] {};
-            }
-
-            return new List<string>(args);
+            return args == null ? new List<string>() : new List<string>(args);
         }
 
         /// <summary>
-        ///     Creates a client channel and obtains a reference to the remoting service exposed by the server - in this
-        ///     case, the remoting service exposed by the first instance. Calls a function of the remoting service class to
-        ///     pass on command line arguments from the second instance to the first and cause it to activate itself.
+        ///     Creates a client channel and obtains a reference to the remoting service exposed by the server
+        ///     - in this case, the remoting service exposed by the first instance. Calls a function of the
+        ///     remoting service class to pass on command line arguments from the second instance to the first
+        ///     and cause it to activate itself.
         /// </summary>
         /// <param name="channelName"> Application's IPC channel name. </param>
         /// <param name="args">
-        ///     Command line arguments for the second instance, passed to the first instance to take appropriate action.
+        ///     Command line arguments for the second instance,
+        ///     passed to the first instance to take appropriate action.
         /// </param>
         private static void SignalFirstInstance(string channelName, IList<string> args)
         {
             var secondInstanceChannel = new IpcClientChannel();
             ChannelServices.RegisterChannel(secondInstanceChannel, true);
 
-            var remotingServiceUrl = IpcProtocol + channelName + "/" + RemoteServiceName;
+            var remotingServiceUrl = $"{IpcProtocol}{channelName}/{RemoteServiceName}";
 
             // Obtain a reference to the remoting service exposed by the server i.e the first instance of the application
             var firstInstanceRemoteServiceReference =
                 (IpcRemoteService)RemotingServices.Connect(typeof(IpcRemoteService), remotingServiceUrl);
 
-            // Check that the remote service exists, in some cases the first instance may not yet have created one, in which case
-            // the second instance should just exit.
+            // Check that the remote service exists, in some cases the first instance
+            // may not yet have created one, in which case the second instance should just exit.
             // Invoke a method of the remote service exposed by the first instance passing on
-            // the command line arguments and causing the first instance to activate itself
+            // the command line arguments and causing the first instance to activate itself.
             firstInstanceRemoteServiceReference?.InvokeFirstInstance(args);
         }
 
         #endregion
 
-        #region " Nested type: IpcRemoteService "
+        #region " Nested Class: IpcRemoteService "
 
         /// <summary>
-        ///     Remoting service class which is exposed by the server i.e the first instance and called by the second
-        ///     instance to pass on the command line arguments to the first instance and cause it to activate itself.
+        ///     Remoting service class which is exposed by the server i.e the first instance and called by the
+        ///     second instance to pass on the command line arguments to the first instance and cause it to
+        ///     activate itself.
         /// </summary>
         private class IpcRemoteService : MarshalByRefObject
         {
             #region " Public Methods "
+
+            /// <summary>
+            ///     Remoting Object's ease expires after every 5 minutes by default. We need to override the
+            ///     InitializeLifetimeService class to ensure that lease never expires.
+            /// </summary>
+            /// <returns> Always null. </returns>
+            public override object InitializeLifetimeService()
+            {
+                return null;
+            }
 
             /// <summary>
             ///     Activates the first instance of the application.
@@ -291,18 +314,10 @@ namespace Trustsoft.SingleInstanceApp
                 {
                     // Do an asynchronous call to ActivateFirstInstance function
                     var operationCallback = new DispatcherOperationCallback(ActivateFirstInstanceCallback);
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, operationCallback, args);
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                                                               operationCallback,
+                                                               args);
                 }
-            }
-
-            /// <summary>
-            ///     Remoting Object's ease expires after every 5 minutes by default. We need to override the
-            ///     InitializeLifetimeService class to ensure that lease never expires.
-            /// </summary>
-            /// <returns> Always null. </returns>
-            public override object InitializeLifetimeService()
-            {
-                return null;
             }
 
             #endregion
